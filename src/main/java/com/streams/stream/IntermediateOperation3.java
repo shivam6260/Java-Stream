@@ -1,7 +1,9 @@
 package com.streams.stream;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -13,8 +15,17 @@ public class IntermediateOperation3 {
         /// 1 Filter
         List<String> list = Arrays.asList("Akshit" , "Ram" , "Shyam" , "Ghyansham", "Akash" , "Akshit");
         Stream<String> streamFiltered =  list.stream().filter(x -> x.toLowerCase().startsWith("a"));
-        //No Filtering at this point
 
+        Stream<String> result = list.stream().filter(new Predicate<String>() {
+            @Override
+            public boolean test(String x) {
+                return x.toLowerCase().startsWith("a");
+            }
+        });
+
+        //No Filtering at this point
+        System.out.println(list);
+        result.forEach( x -> System.out.println(x));
         long res = list.stream().filter(x -> x.toLowerCase().startsWith("a")).count();
         System.out.println(res);
 
@@ -22,15 +33,23 @@ public class IntermediateOperation3 {
         Stream<String> stringStream =  list.stream().map(x -> x.toUpperCase());
 
         /// 3 Sorted
-
         Stream<String> sortedStream = list.stream().sorted();
         Stream<String> customSortedStream = list.stream().sorted( (a,b) -> a.length() - b.length());
 
+        Stream<String> customSortedStreamWithoutLambdaExpression = list.stream().sorted(new Comparator<String>() {
+            @Override
+            public int compare(String a, String b) {
+                return a.length() - b.length();
+            }
+        });
+
         /// 4 Distinct
         System.out.println(list.stream().filter(x -> x.startsWith("A")).distinct().count());
+        list.stream().filter(x -> x.startsWith("A")).distinct().forEach(x -> System.out.print(x + " "));
+        System.out.println();
 
         /// 5 Limit
-        System.out.println(Stream.iterate(1 , x -> x + 1).limit(100).count());
+        System.out.println(Stream.iterate(1 , x -> x + 1).limit(200).count());
 
         /// 6 Skip
         System.out.println(Stream.iterate(1 , x -> x + 1).skip(10).limit(100).count());

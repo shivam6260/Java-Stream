@@ -54,9 +54,7 @@ public class LambdaExpression1 {
         Predicate<Integer> isEven = new Predicate<Integer>() {
             @Override
             public boolean test(Integer integer) {
-                if(integer % 2 == 0) {
-                    return true;
-                }else return false;
+                return integer % 2 == 0;
             }
         };
         System.out.println(isEven.test(4));
